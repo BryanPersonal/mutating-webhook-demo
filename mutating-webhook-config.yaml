@@ -1,0 +1,33 @@
+# MutatingWebhookConfiguration：与 webhook.go 中 mutatingConfig() 一致。
+# 若使用 deploy/ 在 k3d 部署，建议由程序自动安装（INSTALL_WEBHOOK_CONFIG=1），会写入 caBundle；
+# 若手动 apply 本文件，需自行填写 clientConfig.service.caBundle（Webhook 的 CA 证书 PEM 的 base64）。
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: mutate-pod-demo
+webhooks:
+  - name: mutate-pod.webhook.demo
+    admissionReviewVersions: ["v1"]
+    clientConfig:
+      service:
+        namespace: mutating-webhook-demo
+        name: mutating-webhook-demo
+        path: /mutate-v1-pod
+        port: 9443
+      # 程序自动安装时会写入；手动 apply 时需填写 Webhook CA 的 base64
+      # caBundle: <base64 of CA PEM>
+    rules:
+      - operations: [CREATE, UPDATE]
+        apiGroups: [""]
+        apiVersions: ["v1"]
+        resources: ["pods"]
+    # 排除带 mutating-webhook-demo.io/exclude=true 的 namespace，避免 Webhook 自己的 Pod 创建时也调 Webhook
+    namespaceSelector:
+      matchExpressions:
+        - key: mutating-webhook-demo.io/exclude
+          operator: NotIn
+          values: ["true"]
+    sideEffects: NoneOnDryRun
+    failurePolicy: Fail
+    matchPolicy: Exact
+    timeoutSeconds: 10

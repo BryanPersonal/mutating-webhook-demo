@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mutating-webhook-demo
+  labels:
+    # 供 MutatingWebhookConfiguration 的 namespaceSelector 排除，避免 Webhook 自己的 Pod 创建时也走 Webhook（导致重启时 TLS 失败）
+    mutating-webhook-demo.io/exclude: "true"

@@ -1,0 +1,28 @@
+# Webhook 进程需要创建/更新 MutatingWebhookConfiguration（集群资源），故需 ClusterRole + ClusterRoleBinding
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mutating-webhook-demo
+  namespace: mutating-webhook-demo
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: mutating-webhook-demo
+rules:
+  - apiGroups: ["admissionregistration.k8s.io"]
+    resources: ["mutatingwebhookconfigurations"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: mutating-webhook-demo
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: mutating-webhook-demo
+subjects:
+  - kind: ServiceAccount
+    name: mutating-webhook-demo
+    namespace: mutating-webhook-demo
