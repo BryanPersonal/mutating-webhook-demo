@@ -2,6 +2,10 @@
 
 本文说明本示例的**设计核心**与实现时必须抓住的**不变量**；部署步骤仍以根目录 [README.md](../README.md) 为准。**第 3 节**按文件走读代码，**第 4 节**说明 Kubernetes 准入与 TLS 等原理层背景。
 
+若你更关心「哪些写法属于标准开发流程、如何对照生产实践」，请先读 [STANDARD_PATTERNS.md](./STANDARD_PATTERNS.md)。
+
+若你需要**架构图、启动/准入时序图、源文件调用关系与 `go.mod` 模块说明**，见 [ARCHITECTURE.md](./ARCHITECTURE.md)。
+
 ## 1. 项目目标与边界
 
 | 维度 | 说明 |

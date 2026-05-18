@@ -4,6 +4,10 @@
 
 **设计要点（代码解读、原理、启动顺序、TLS、自举）**：见 [docs/DESIGN.md](docs/DESIGN.md)。
 
+**代码剖析图与 Go 模块说明（架构图、调用关系、依赖表）**：见 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)。
+
+**标准开发范式（工程结构、controller-runtime、准入/TLS、部署与检查清单）**：见 [docs/STANDARD_PATTERNS.md](docs/STANDARD_PATTERNS.md)。
+
 ## 代码树（本仓库源文件）
 
 ```
